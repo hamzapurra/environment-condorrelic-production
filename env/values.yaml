@@ -1,26 +1,14 @@
-expose:
-  Args: 
-    - --v
-    - 4
-  Annotations:
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-delete-policy: hook-succeeded
+ingress:
+  host: world.zendy.io
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 
-cleanup:
-  Args: 
-    - --cleanup
-  Annotations:
-    helm.sh/hook: pre-delete
-    helm.sh/hook-delete-policy: hook-succeeded
-expose:
+api:
   config:
-    domain: 52.29.172.82.nip.io
-    exposer: Ingress
-    http: "true"
-    tlsacme: "false"
-  Annotations:
-    helm.sh/hook: post-install,post-upgrade
-    helm.sh/hook-delete-policy: hook-succeeded
+    client:
+      baseUrl: world.zendy.io
+
 jenkins:
   Servers:
     Global:

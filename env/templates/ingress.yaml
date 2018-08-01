@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: jx-production
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  rules:
+  - host: api.{{ .Values.ingress.host }}
+    http:
+      paths:
+      - backend:
+          serviceName: zendy-api
+          servicePort: 80
+  - host: '*.{{ .Values.ingress.host }}'
+    http:
+      paths:
+      - path: /admin
+        backend:
+          serviceName: zendy-cockpit
+          servicePort: 80
+      - backend:
+          serviceName: zendy-ui
+          servicePort: 80
